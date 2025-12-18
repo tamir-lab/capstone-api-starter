@@ -69,7 +69,8 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, productId);
             int rows = preparedStatement.executeUpdate();
-            if(rows == 0) System.out.println("No rows have been updated.");
+            if(rows == 0)
+                System.out.println("No rows have been updated.");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -85,7 +86,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
             preparedStatement.setInt(2, productId);
             preparedStatement.setInt(3,userId);
             int rows = preparedStatement.executeUpdate();
-            if(rows == 0) throw new SQLException("Update failed, no rows affected!");
+            if(rows == 0) throw new SQLException("Failed to update.");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -99,8 +100,8 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, userId);
             int rows = preparedStatement.executeUpdate();
-            if(rows == 0) System.out.println("No rows have been deleted");
-            else System.out.println("Cart has been cleared!");
+            if(rows == 0) System.out.println("No rows have been deleted.");
+            else System.out.println("Cart has been cleared.");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -53,15 +53,14 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
                 """;
         try(Connection connection = getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)){
-            ps.setInt(1, profile.getUserId());
-            ps.setString(2, profile.getFirstName());
-            ps.setString(3, profile.getLastName());
-            ps.setString(4, profile.getPhone());
-            ps.setString(5, profile.getEmail());
-            ps.setString(6, profile.getAddress());
-            ps.setString(7, profile.getCity());
-            ps.setString(8, profile.getState());
-            ps.setString(9, profile.getZip());
+            ps.setString(1, profile.getFirstName());
+            ps.setString(2, profile.getLastName());
+            ps.setString(3, profile.getPhone());
+            ps.setString(4, profile.getEmail());
+            ps.setString(5, profile.getAddress());
+            ps.setString(6, profile.getCity());
+            ps.setString(7, profile.getState());
+            ps.setString(8, profile.getZip());
             ps.setInt(9, userId);
             int affectedRows = ps.executeUpdate();
             if(affectedRows == 0)
@@ -73,34 +72,22 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
     }
 
     @Override
-    public Profile getByUserId(int id) {
-        String sql = "SELECT * FROM profile WHERE User_id = ?";
+    public Profile getByUserId(int userId) {
+        String sql = "SELECT * FROM profiles WHERE User_id = ?";
         try(Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, userId);
             try(ResultSet row = preparedStatement.executeQuery()){
                 if(row.next()){
-                    int userId = row.getInt("user_id");
-                    String firstName = row.getString("first_name");
-                    String lastName = row.getString("last_name");
-                    String phone = row.getString("phone");
-                    String email = row.getString("email");
-                    String address = row.getString("address");
-                    String city = row.getString("city");
-                    String state = row.getString("state");
-                    String zip = row.getString("zip");
-
-                    return new Profile()
-                    {{
-                        setUserId(userId);
-                        setFirstName(firstName);
-                        setLastName(lastName);
-                        setPhone(phone);
-                        setEmail(email);
-                        setAddress(address);
-                        setCity(city);
-                        setState(state);
-                        setZip(zip);}};
+                    return new Profile(userId,
+                            row.getString("first_name"),
+                            row.getString("last_name"),
+                            row.getString("phone"),
+                            row.getString("email"),
+                            row.getString("address"),
+                            row.getString("city"),
+                            row.getString("state"),
+                            row.getString("zip"));
                 }
             }
         } catch (Exception e) {
